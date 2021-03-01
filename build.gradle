@@ -29,6 +29,8 @@ sourceSets {
     }
 }
 
+group 'io.github.pulverizer'
+
 repositories {
     mavenLocal()
 }
@@ -36,9 +38,10 @@ repositories {
 dependencies {
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.7.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '3.+'
-    compile 'org.spongepowered:spongeapi:7.4.0-SNAPSHOT'
-    compile 'org.spongepowered:spongecommon:1.12.2-7.3.1-SNAPSHOT:dev'
-    compile 'org.spongepowered:mixin:0.8.2'
+    implementation  'org.spongepowered:spongeapi:7.4.0-SNAPSHOT'
+    implementation  'org.spongepowered:spongecommon:1.12.2-7.3.1-SNAPSHOT:dev'
+    implementation  'org.spongepowered:mixin:0.8.2'
+    implementation  'io.github.pulverizer:movecraft:unspecified'
 }
 
 minecraft {

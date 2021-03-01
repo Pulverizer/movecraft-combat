@@ -23,6 +23,7 @@ https://discord.gg/5Wj8yxy
 5. Add this repository as a project module using File > Project Structure > Project Settings > Modules > Add
 5. Wait for the repository to be indexed
 5. Run the gradle task `setupDecompWorkspace`
+5. Run the gradle task `publishMovecraftPublicationToMavenLocal` from Movecraft
 6. Refresh the gradle dependencies
 5. Add the module `MovecraftCombat.main` as a module dependency of the `SpongeVanilla.main` module
 7. Theoretically, you are now ready to code or compile
