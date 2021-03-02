@@ -1,7 +1,7 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "io.github.pulverizer.movecraft.mixin",
+    "package": "io.github.pulverizer.movecraft_combat.mixin",
     "refmap": "mixins.movecraft.refmap.json",
     "target": "@env(DEFAULT)",
     "compatibilityLevel": "JAVA_8",

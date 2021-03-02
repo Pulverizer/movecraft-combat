@@ -1,7 +1,14 @@
 package io.github.pulverizer.movecraft_combat;
 
 import com.google.inject.Inject;
+import io.github.pulverizer.movecraft.listener.FireballListener;
+import io.github.pulverizer.movecraft_combat.sign.AntiAircraftDirectorSign;
+import io.github.pulverizer.movecraft_combat.sign.CannonDirectorSign;
+import io.github.pulverizer.movecraft_combat.sign.LoaderSign;
+import io.github.pulverizer.movecraft_combat.sign.RepairmanSign;
 import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.Dependency;
@@ -20,7 +27,18 @@ public class MovecraftCombat {
 
     @Inject private Logger logger;
 
+    /**
+     * Listener for GamePreInitializationEvent. Loads the Plugin's settings.
+     * @param event GamePreInitializationEvent from Listener.
+     */
     @Listener
-    public void onServerStart(GameStartedServerEvent event) {
+    public void onLoad(GamePreInitializationEvent event) {
+
+        Sponge.getEventManager().registerListeners(this, new AntiAircraftDirectorSign());
+        Sponge.getEventManager().registerListeners(this, new CannonDirectorSign());
+        Sponge.getEventManager().registerListeners(this, new LoaderSign());
+        Sponge.getEventManager().registerListeners(this, new RepairmanSign());
+
+        Sponge.getEventManager().registerListeners(this, new FireballListener());
     }
 }
