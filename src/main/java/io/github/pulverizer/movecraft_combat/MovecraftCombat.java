@@ -2,6 +2,7 @@ package io.github.pulverizer.movecraft_combat;
 
 import com.google.inject.Inject;
 import io.github.pulverizer.movecraft.listener.FireballListener;
+import io.github.pulverizer.movecraft_combat.listener.PlayerListener;
 import io.github.pulverizer.movecraft_combat.listener.TNTListener;
 import io.github.pulverizer.movecraft_combat.sign.AntiAircraftDirectorSign;
 import io.github.pulverizer.movecraft_combat.sign.CannonDirectorSign;
@@ -42,5 +43,6 @@ public class MovecraftCombat {
 
         Sponge.getEventManager().registerListeners(this, new FireballListener());
         Sponge.getEventManager().registerListeners(this, new TNTListener());
+        Sponge.getEventManager().registerListeners(this, new PlayerListener());
     }
 }
