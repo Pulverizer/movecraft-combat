@@ -37,7 +37,7 @@ public class FireballListener {
 
             Craft craft = CraftManager.getInstance().getCraftFromLocation(((Dispenser) fireball.getShooter()).getLocation());
 
-            if (craft != null && craft.getType().getSetting(Defaults.CanHaveAADirectors.class).get().getValue()) {
+            if (craft != null && craft.getType().getValue(Defaults.CanHaveAADirectors.class).get()) {
 
                 Player player = craft.getAADirectorFor(fireball);
 

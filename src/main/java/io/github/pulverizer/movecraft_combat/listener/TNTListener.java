@@ -172,7 +172,7 @@ public class TNTListener {
 
             //TODO - make it use the spawning Dispenser location to check against craft hitbox
 
-            if (craft != null && craft.getType().getSetting(Defaults.CanHaveCannonDirectors.class).get().getValue()) {
+            if (craft != null && craft.getType().getValue(Defaults.CanHaveCannonDirectors.class).get()) {
                 Player player = craft.getCannonDirectorFor(primedTNT);
 
                 if (player != null && player.getItemInHand(HandTypes.MAIN_HAND).get().getType() == Settings.PilotTool) {
