@@ -1,7 +1,7 @@
 package io.github.pulverizer.movecraft_combat;
 
 import com.google.inject.Inject;
-import io.github.pulverizer.movecraft.listener.FireballListener;
+import io.github.pulverizer.movecraft_combat.listener.FireballListener;
 import io.github.pulverizer.movecraft_combat.listener.PlayerListener;
 import io.github.pulverizer.movecraft_combat.listener.TNTListener;
 import io.github.pulverizer.movecraft_combat.sign.AntiAircraftDirectorSign;
@@ -11,7 +11,6 @@ import io.github.pulverizer.movecraft_combat.sign.RepairmanSign;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
