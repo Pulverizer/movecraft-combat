@@ -6,6 +6,7 @@ import io.github.pulverizer.movecraft.api.event.LoadCraftConfigsEvent;
 import io.github.pulverizer.movecraft.config.craft.CraftType;
 import io.github.pulverizer.movecraft.config.craft.Defaults;
 import io.github.pulverizer.movecraft_combat.config.CraftSettings;
+import io.github.pulverizer.movecraft_combat.config.CrewRoles;
 import io.github.pulverizer.movecraft_combat.listener.FireballListener;
 import io.github.pulverizer.movecraft_combat.listener.PlayerListener;
 import io.github.pulverizer.movecraft_combat.listener.TNTListener;
@@ -39,6 +40,8 @@ public class MovecraftCombat {
      */
     @Listener
     public void onLoad(GamePreInitializationEvent event) {
+
+        CrewRoles.register();
 
         Sponge.getEventManager().registerListeners(this, new AntiAircraftDirectorSign());
         Sponge.getEventManager().registerListeners(this, new CannonDirectorSign());

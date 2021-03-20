@@ -1,9 +1,17 @@
 package io.github.pulverizer.movecraft_combat.config;
 
+import io.github.pulverizer.movecraft.api.config.crew.CrewRole;
 import io.github.pulverizer.movecraft.api.config.crew.ManyPlayerCrewRole;
 import io.github.pulverizer.movecraft.config.craft.CraftType;
 
 public abstract class CrewRoles {
+
+    public static void register() {
+        CrewRole.registerSubType(AADirector.class, AADirector::new);
+        CrewRole.registerSubType(CannonDirector.class, CannonDirector::new);
+        CrewRole.registerSubType(Loader.class, Loader::new);
+        CrewRole.registerSubType(Repairman.class, Repairman::new);
+    }
 
     public static final class AADirector extends ManyPlayerCrewRole {
 
