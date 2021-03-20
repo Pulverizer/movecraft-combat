@@ -1,0 +1,59 @@
+package io.github.pulverizer.movecraft_combat.config;
+
+import io.github.pulverizer.movecraft.api.config.crew.ManyPlayerCrewRole;
+import io.github.pulverizer.movecraft.config.craft.CraftType;
+
+public abstract class CrewRoles {
+
+    public static final class AADirector extends ManyPlayerCrewRole {
+
+        @Override public final String getPermissionNode() {
+            return "crew.director.aa";
+        }
+
+        @Override public boolean enabledOnCraftType(CraftType craftType) {
+            return craftType.getValue(CraftSettings.CanHaveAADirectors.class).get();
+        }
+
+        @Override public String getName() {
+            return "AA Director";
+        }
+    }
+
+    public static final class CannonDirector extends ManyPlayerCrewRole {
+
+        @Override public final String getPermissionNode() {
+            return "crew.director.cannon";
+        }
+
+        @Override public boolean enabledOnCraftType(CraftType craftType) {
+            return craftType.getValue(CraftSettings.CanHaveCannonDirectors.class).get();
+        }
+
+        @Override public String getName() {
+            return "Cannon Director";
+        }
+    }
+
+    public static final class Loader extends ManyPlayerCrewRole {
+
+        @Override public final String getPermissionNode() {
+            return "crew.loader";
+        }
+
+        @Override public boolean enabledOnCraftType(CraftType craftType) {
+            return craftType.getValue(CraftSettings.CanHaveLoaders.class).get();
+        }
+    }
+
+    public static final class Repairman extends ManyPlayerCrewRole {
+
+        @Override public final String getPermissionNode() {
+            return "crew.repairman";
+        }
+
+        @Override public boolean enabledOnCraftType(CraftType craftType) {
+            return craftType.getValue(CraftSettings.CanHaveRepairmen.class).get();
+        }
+    }
+}

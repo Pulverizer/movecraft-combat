@@ -1,6 +1,11 @@
 package io.github.pulverizer.movecraft_combat;
 
 import com.google.inject.Inject;
+import io.github.pulverizer.movecraft.api.config.craft.CraftSetting;
+import io.github.pulverizer.movecraft.api.event.LoadCraftConfigsEvent;
+import io.github.pulverizer.movecraft.config.craft.CraftType;
+import io.github.pulverizer.movecraft.config.craft.Defaults;
+import io.github.pulverizer.movecraft_combat.config.CraftSettings;
 import io.github.pulverizer.movecraft_combat.listener.FireballListener;
 import io.github.pulverizer.movecraft_combat.listener.PlayerListener;
 import io.github.pulverizer.movecraft_combat.listener.TNTListener;
@@ -43,5 +48,12 @@ public class MovecraftCombat {
         Sponge.getEventManager().registerListeners(this, new FireballListener());
         Sponge.getEventManager().registerListeners(this, new TNTListener());
         Sponge.getEventManager().registerListeners(this, new PlayerListener());
+    }
+
+    @Listener
+    public void registerCraftSettings(LoadCraftConfigsEvent event) {
+        for (Class<?> setting : CraftSettings.class.getDeclaredClasses()) {
+            CraftType.registerSetting((Class<? extends CraftSetting>) setting);
+        }
     }
 }

@@ -3,9 +3,11 @@ package io.github.pulverizer.movecraft_combat.listener;
 import com.flowpowered.math.imaginary.Quaterniond;
 import com.flowpowered.math.vector.Vector3d;
 import io.github.pulverizer.movecraft.config.Settings;
-import io.github.pulverizer.movecraft.config.craft_settings.Defaults;
 import io.github.pulverizer.movecraft.craft.Craft;
 import io.github.pulverizer.movecraft.craft.CraftManager;
+import io.github.pulverizer.movecraft_combat.config.CraftSettings;
+import io.github.pulverizer.movecraft_combat.config.CrewRoles;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.tileentity.carrier.Dispenser;
 import org.spongepowered.api.data.key.Keys;
@@ -21,6 +23,8 @@ import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class FireballListener {
 
@@ -37,9 +41,9 @@ public class FireballListener {
 
             Craft craft = CraftManager.getInstance().getCraftFromLocation(((Dispenser) fireball.getShooter()).getLocation());
 
-            if (craft != null && craft.getType().getValue(Defaults.CanHaveAADirectors.class).get()) {
+            if (craft != null && craft.getType().getValue(CraftSettings.CanHaveAADirectors.class).get()) {
 
-                Player player = craft.getAADirectorFor(fireball);
+                Player player = getAADirectorFor(craft, fireball);
 
                 if (player != null && player.getItemInHand(HandTypes.MAIN_HAND).isPresent()
                         && player.getItemInHand(HandTypes.MAIN_HAND).get().getType() == Settings.PilotTool) {
@@ -132,5 +136,30 @@ public class FireballListener {
             return false;
 
         });
+    }
+
+    private Player getAADirectorFor(Craft craft, SmallFireball fireball) {
+        Player player = null;
+        double distance = 16 * 64;
+        Set<UUID> testSet = craft.getCrew().get(CrewRoles.AADirector.class).get().getPlayers();
+
+        for (UUID testUUID : testSet) {
+            Player testPlayer = Sponge.getServer().getPlayer(testUUID).orElse(null);
+
+            if (testPlayer == null) {
+                CraftManager.getInstance().removePlayer(testUUID);
+                continue;
+            }
+
+            //TODO - Add test for matching facing direction
+            double testDistance = testPlayer.getLocation().getPosition().distance(fireball.getLocation().getPosition());
+
+            if (testDistance < distance) {
+                player = testPlayer;
+                distance = testDistance;
+            }
+        }
+
+        return player;
     }
 }

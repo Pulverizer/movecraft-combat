@@ -7,16 +7,16 @@ import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 import io.github.pulverizer.movecraft.Movecraft;
 import io.github.pulverizer.movecraft.config.Settings;
-import io.github.pulverizer.movecraft.config.craft_settings.Defaults;
 import io.github.pulverizer.movecraft.craft.Craft;
 import io.github.pulverizer.movecraft.craft.CraftManager;
+import io.github.pulverizer.movecraft_combat.config.CraftSettings;
+import io.github.pulverizer.movecraft_combat.config.CrewRoles;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.TileEntity;
 import org.spongepowered.api.block.tileentity.carrier.TileEntityCarrier;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.property.block.MatterProperty;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.explosive.PrimedTNT;
@@ -29,10 +29,8 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
 import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
-import org.spongepowered.api.world.BlockChangeFlags;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.explosion.Explosion;
@@ -43,6 +41,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 
 public class TNTListener {
 
@@ -172,8 +172,8 @@ public class TNTListener {
 
             //TODO - make it use the spawning Dispenser location to check against craft hitbox
 
-            if (craft != null && craft.getType().getValue(Defaults.CanHaveCannonDirectors.class).get()) {
-                Player player = craft.getCannonDirectorFor(primedTNT);
+            if (craft != null && craft.getType().getValue(CraftSettings.CanHaveCannonDirectors.class).get()) {
+                Player player = getCannonDirectorFor(craft, primedTNT);
 
                 if (player != null && player.getItemInHand(HandTypes.MAIN_HAND).get().getType() == Settings.PilotTool) {
 
@@ -234,6 +234,31 @@ public class TNTListener {
         if (Settings.TracerRateTicks != 0 && !tracerTNT.containsKey(primedTNT) && velocity > 0.25) {
             tracerTNT.put(primedTNT, Sponge.getServer().getRunningTimeTicks() - Settings.TracerRateTicks);
         }
+    }
+
+    private Player getCannonDirectorFor(Craft craft, PrimedTNT primedTNT) {
+        Player player = null;
+        double distance = 16 * 64;
+        Set<UUID> testSet = craft.getCrew().get(CrewRoles.CannonDirector.class).get().getPlayers();
+
+        for (UUID testUUID : testSet) {
+            Player testPlayer = Sponge.getServer().getPlayer(testUUID).orElse(null);
+
+            if (testPlayer == null) {
+                CraftManager.getInstance().removePlayer(testUUID);
+                continue;
+            }
+
+            //TODO - Add test for matching facing direction
+            double testDistance = testPlayer.getLocation().getPosition().distance(primedTNT.getLocation().getPosition());
+
+            if (testDistance < distance) {
+                player = testPlayer;
+                distance = testDistance;
+            }
+        }
+
+        return player;
     }
 
     @Listener

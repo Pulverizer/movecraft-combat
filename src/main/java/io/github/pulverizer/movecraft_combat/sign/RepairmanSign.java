@@ -1,7 +1,9 @@
 package io.github.pulverizer.movecraft_combat.sign;
 
+import io.github.pulverizer.movecraft.craft.CraftManager;
 import io.github.pulverizer.movecraft.craft.crew.CrewManager;
 import io.github.pulverizer.movecraft.utils.BlockSnapshotSignDataUtil;
+import io.github.pulverizer.movecraft_combat.config.CrewRoles;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -35,11 +37,11 @@ public class RepairmanSign {
         }
 
         if (event instanceof InteractBlockEvent.Primary) {
-            CrewManager.getInstance().resetRole(player);
+            CrewManager.resetRole(player);
             return;
         }
 
-        CrewManager.getInstance().addRepairman(player);
+        CrewManager.giveRole(player, CrewRoles.Repairman.class, CraftManager.getInstance().getCraftByPlayer(player.getUniqueId()));
 
         event.setCancelled(true);
     }

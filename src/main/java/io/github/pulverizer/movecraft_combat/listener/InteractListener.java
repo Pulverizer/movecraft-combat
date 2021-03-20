@@ -2,6 +2,7 @@ package io.github.pulverizer.movecraft_combat.listener;
 
 import io.github.pulverizer.movecraft.craft.Craft;
 import io.github.pulverizer.movecraft.craft.CraftManager;
+import io.github.pulverizer.movecraft_combat.config.CrewRoles;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.block.tileentity.carrier.Dispenser;
@@ -30,10 +31,10 @@ public final class InteractListener {
         boolean isCrewMember = false;
         boolean isLoader = false;
         for (Craft craft : crafts) {
-            if (craft.isCrewMember(player.getUniqueId())) {
+            if (craft.getCrew().contains(player.getUniqueId())) {
                 isCrewMember = true;
 
-                if (craft.isLoader(player.getUniqueId())) {
+                if (craft.getCrew().hasRole(player.getUniqueId(),CrewRoles.Loader.class)) {
                     isLoader = true;
                     break;
                 }
