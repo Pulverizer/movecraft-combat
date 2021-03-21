@@ -26,6 +26,10 @@ public abstract class CrewRoles {
         @Override public String getName() {
             return "AA Director";
         }
+
+        @Override public AADirector newInstance() {
+            return new AADirector();
+        }
     }
 
     public static final class CannonDirector extends ManyPlayerCrewRole {
@@ -41,6 +45,10 @@ public abstract class CrewRoles {
         @Override public String getName() {
             return "Cannon Director";
         }
+
+        @Override public CannonDirector newInstance() {
+            return new CannonDirector();
+        }
     }
 
     public static final class Loader extends ManyPlayerCrewRole {
@@ -52,6 +60,10 @@ public abstract class CrewRoles {
         @Override public boolean enabledOnCraftType(CraftType craftType) {
             return craftType.getValue(CraftSettings.CanHaveLoaders.class).get();
         }
+
+        @Override public Loader newInstance() {
+            return new Loader();
+        }
     }
 
     public static final class Repairman extends ManyPlayerCrewRole {
@@ -62,6 +74,10 @@ public abstract class CrewRoles {
 
         @Override public boolean enabledOnCraftType(CraftType craftType) {
             return craftType.getValue(CraftSettings.CanHaveRepairmen.class).get();
+        }
+
+        @Override public Repairman newInstance() {
+            return new Repairman();
         }
     }
 }
