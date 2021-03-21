@@ -1,10 +1,7 @@
 package io.github.pulverizer.movecraft_combat;
 
 import com.google.inject.Inject;
-import io.github.pulverizer.movecraft.api.config.craft.CraftSetting;
-import io.github.pulverizer.movecraft.api.event.LoadCraftConfigsEvent;
-import io.github.pulverizer.movecraft.config.craft.CraftType;
-import io.github.pulverizer.movecraft.config.craft.Defaults;
+import io.github.pulverizer.movecraft.api.event.RegisterFeaturesEvent;
 import io.github.pulverizer.movecraft_combat.config.CraftSettings;
 import io.github.pulverizer.movecraft_combat.config.CrewRoles;
 import io.github.pulverizer.movecraft_combat.listener.FireballListener;
@@ -16,8 +13,9 @@ import io.github.pulverizer.movecraft_combat.sign.LoaderSign;
 import io.github.pulverizer.movecraft_combat.sign.RepairmanSign;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -34,14 +32,18 @@ public class MovecraftCombat {
 
     @Inject private Logger logger;
 
+    @Listener(order = Order.FIRST)
+    public void registerFeatures(RegisterFeaturesEvent event) {
+        CraftSettings.register();
+        CrewRoles.register();
+    }
+
     /**
      * Listener for GamePreInitializationEvent. Loads the Plugin's settings.
      * @param event GamePreInitializationEvent from Listener.
      */
     @Listener
     public void onLoad(GamePreInitializationEvent event) {
-
-        CrewRoles.register();
 
         Sponge.getEventManager().registerListeners(this, new AntiAircraftDirectorSign());
         Sponge.getEventManager().registerListeners(this, new CannonDirectorSign());
@@ -51,12 +53,5 @@ public class MovecraftCombat {
         Sponge.getEventManager().registerListeners(this, new FireballListener());
         Sponge.getEventManager().registerListeners(this, new TNTListener());
         Sponge.getEventManager().registerListeners(this, new PlayerListener());
-    }
-
-    @Listener
-    public void registerCraftSettings(LoadCraftConfigsEvent event) {
-        for (Class<?> setting : CraftSettings.class.getDeclaredClasses()) {
-            CraftType.registerSetting((Class<? extends CraftSetting>) setting);
-        }
     }
 }
